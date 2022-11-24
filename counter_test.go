@@ -1,4 +1,4 @@
-package template
+package counter
 
 import "testing"
 

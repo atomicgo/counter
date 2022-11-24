@@ -1,9 +1,5 @@
 /*
-Package template is used to generate new AtomicGo repositories.
-
-Write the description of the module here. You can use **markdown**!
-This description should clearly explain what the package does.
-
-Example description: https://golang.org/src/encoding/gob/doc.go
+Package counter implements a fast, thread-safe counter.
+It also collects statstics, like current rate, min / max rate, etc.
 */
-package template
+package counter
