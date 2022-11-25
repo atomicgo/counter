@@ -16,7 +16,7 @@
 </a>
 
 <a href="https://codecov.io/gh/atomicgo/counter">
-<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-1-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
+<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-8-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
 </a>
 
 <a href="https://opensource.org/licenses/MIT" target="_blank">
@@ -69,20 +69,112 @@
 import "atomicgo.dev/counter"
 ```
 
-Package counter implements a fast, thread\-safe counter. It also collects statstics, like current rate, min / max rate, etc.
+Package counter implements an advanced, fast and thread\-safe counter. It collects statstics, like current rate, min / max rate, etc.
 
 ## Index
 
-- [func HelloWorld() string](<#func-helloworld>)
+- [type Counter](<#type-counter>)
+  - [func NewCounter() *Counter](<#func-newcounter>)
+  - [func (c *Counter) CalculateAverageRate(interval time.Duration) float64](<#func-counter-calculateaveragerate>)
+  - [func (c *Counter) CalculateMaximumRate(interval time.Duration) float64](<#func-counter-calculatemaximumrate>)
+  - [func (c *Counter) CalculateMinimumRate(interval time.Duration) float64](<#func-counter-calculateminimumrate>)
+  - [func (c *Counter) Count() uint64](<#func-counter-count>)
+  - [func (c *Counter) Increment()](<#func-counter-increment>)
+  - [func (c *Counter) Reset()](<#func-counter-reset>)
+  - [func (c *Counter) Start() *Counter](<#func-counter-start>)
+  - [func (c *Counter) Stop()](<#func-counter-stop>)
+  - [func (c *Counter) WithAdvancedStats() *Counter](<#func-counter-withadvancedstats>)
 
 
-## func [HelloWorld](<https://github.com/atomicgo/counter/blob/main/counter.go#L4>)
+## type [Counter](<https://github.com/atomicgo/counter/blob/main/counter.go#L15-L23>)
+
+Counter is a fast, thread\-safe counter. It collects statstics, like current rate, min / max rate, etc. The Counter can go up to \`18446744073709551615\` \(2^64 \- 1\), as it uses uint64 internally.
 
 ```go
-func HelloWorld() string
+type Counter struct {
+    // contains filtered or unexported fields
+}
 ```
 
-HelloWorld returns \`Hello, World\!\`.
+### func [NewCounter](<https://github.com/atomicgo/counter/blob/main/counter.go#L26>)
+
+```go
+func NewCounter() *Counter
+```
+
+NewCounter returns a new Counter.
+
+### func \(\*Counter\) [CalculateAverageRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L103>)
+
+```go
+func (c *Counter) CalculateAverageRate(interval time.Duration) float64
+```
+
+CalculateAverageRate calculates the average rate of the counter. It returns the rate in \`count / interval\`.
+
+### func \(\*Counter\) [CalculateMaximumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L123>)
+
+```go
+func (c *Counter) CalculateMaximumRate(interval time.Duration) float64
+```
+
+CalculateMaximumRate calculates the maximum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
+
+### func \(\*Counter\) [CalculateMinimumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L150>)
+
+```go
+func (c *Counter) CalculateMinimumRate(interval time.Duration) float64
+```
+
+CalculateMinimumRate calculates the minimum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
+
+### func \(\*Counter\) [Count](<https://github.com/atomicgo/counter/blob/main/counter.go#L83>)
+
+```go
+func (c *Counter) Count() uint64
+```
+
+Count returns the current count.
+
+### func \(\*Counter\) [Increment](<https://github.com/atomicgo/counter/blob/main/counter.go#L71>)
+
+```go
+func (c *Counter) Increment()
+```
+
+Increment increments the counter by 1.
+
+### func \(\*Counter\) [Reset](<https://github.com/atomicgo/counter/blob/main/counter.go#L91>)
+
+```go
+func (c *Counter) Reset()
+```
+
+Reset stops and resets the counter.
+
+### func \(\*Counter\) [Start](<https://github.com/atomicgo/counter/blob/main/counter.go#L43>)
+
+```go
+func (c *Counter) Start() *Counter
+```
+
+Start starts the counter. It returns the counter itself, so you can chain it.
+
+### func \(\*Counter\) [Stop](<https://github.com/atomicgo/counter/blob/main/counter.go#L58>)
+
+```go
+func (c *Counter) Stop()
+```
+
+Stop stops the counter.
+
+### func \(\*Counter\) [WithAdvancedStats](<https://github.com/atomicgo/counter/blob/main/counter.go#L35>)
+
+```go
+func (c *Counter) WithAdvancedStats() *Counter
+```
+
+WithAdvancedStats enables the calculation of advanced statistics like CalculateMinimumRate and CalculateMaximumRate. CalculateAverageRate and CalculateCurrentRate are always enabled.
 
 
 

@@ -2,11 +2,12 @@ module atomicgo.dev/counter
 
 go 1.18
 
+require github.com/MarvinJWendt/testza v0.5.1
+
 require (
 	atomicgo.dev/assert v0.0.2 // indirect
 	atomicgo.dev/cursor v0.1.1 // indirect
 	atomicgo.dev/keyboard v0.2.8 // indirect
-	github.com/MarvinJWendt/testza v0.5.1 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gookit/color v1.5.2 // indirect
