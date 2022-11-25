@@ -109,7 +109,7 @@ func (c *Counter) CalculateAverageRate(interval time.Duration) float64 {
 	}
 
 	untilTime := c.stoppedAt
-	if !untilTime.After(c.startedAt) {
+	if untilTime.Before(c.startedAt) {
 		untilTime = time.Now()
 	}
 

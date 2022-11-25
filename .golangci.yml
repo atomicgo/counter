@@ -33,7 +33,6 @@ linters:
     - durationcheck
     - errorlint
     - exhaustive
-    - gci
     - gocognit
     - gocritic
     - godot
