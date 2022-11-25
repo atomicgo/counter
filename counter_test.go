@@ -1,9 +1,10 @@
 package counter
 
 import (
-	"github.com/MarvinJWendt/testza"
 	"sync"
 	"testing"
+
+	"github.com/MarvinJWendt/testza"
 )
 
 func TestCounter(t *testing.T) {
