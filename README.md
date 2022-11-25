@@ -16,7 +16,7 @@
 </a>
 
 <a href="https://codecov.io/gh/atomicgo/counter">
-<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-8-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
+<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-10-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
 </a>
 
 <a href="https://opensource.org/licenses/MIT" target="_blank">
@@ -112,6 +112,35 @@ func (c *Counter) CalculateAverageRate(interval time.Duration) float64
 
 CalculateAverageRate calculates the average rate of the counter. It returns the rate in \`count / interval\`.
 
+<details><summary>Example</summary>
+<p>
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"atomicgo.dev/counter"
+)
+
+func main() {
+	c := counter.NewCounter().Start()
+	for i := 0; i < 10; i++ {
+		time.Sleep(100 * time.Millisecond)
+		c.Increment()
+	}
+	c.Stop()
+
+	fmt.Println(c.CalculateAverageRate(time.Second))
+	// Output should be around 10, as we incremented 10 times in 1 second
+}
+```
+
+</p>
+</details>
+
 ### func \(\*Counter\) [CalculateMaximumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L123>)
 
 ```go
@@ -120,6 +149,35 @@ func (c *Counter) CalculateMaximumRate(interval time.Duration) float64
 
 CalculateMaximumRate calculates the maximum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
 
+<details><summary>Example</summary>
+<p>
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"atomicgo.dev/counter"
+)
+
+func main() {
+	c := counter.NewCounter().WithAdvancedStats().Start()
+	for i := 0; i < 10; i++ {
+		time.Sleep(100 * time.Millisecond)
+		c.Increment()
+	}
+	c.Stop()
+
+	fmt.Println(c.CalculateMaximumRate(time.Second))
+	// Output should be around 10, as we incremented 10 times in 1 second
+}
+```
+
+</p>
+</details>
+
 ### func \(\*Counter\) [CalculateMinimumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L150>)
 
 ```go
@@ -127,6 +185,35 @@ func (c *Counter) CalculateMinimumRate(interval time.Duration) float64
 ```
 
 CalculateMinimumRate calculates the minimum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
+
+<details><summary>Example</summary>
+<p>
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"atomicgo.dev/counter"
+)
+
+func main() {
+	c := counter.NewCounter().WithAdvancedStats().Start()
+	for i := 0; i < 10; i++ {
+		time.Sleep(100 * time.Millisecond)
+		c.Increment()
+	}
+	c.Stop()
+
+	fmt.Println(c.CalculateMinimumRate(time.Second))
+	// Output should be around 10, as we incremented 10 times in 1 second
+}
+```
+
+</p>
+</details>
 
 ### func \(\*Counter\) [Count](<https://github.com/atomicgo/counter/blob/main/counter.go#L83>)
 
@@ -144,6 +231,38 @@ func (c *Counter) Increment()
 
 Increment increments the counter by 1.
 
+<details><summary>Example</summary>
+<p>
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"atomicgo.dev/counter"
+)
+
+func main() {
+	c := counter.NewCounter().Start()
+	for i := 0; i < 10; i++ {
+		c.Increment()
+	}
+	c.Stop()
+
+	fmt.Println(c.Count())
+}
+```
+
+#### Output
+
+```
+10
+```
+
+</p>
+</details>
+
 ### func \(\*Counter\) [Reset](<https://github.com/atomicgo/counter/blob/main/counter.go#L91>)
 
 ```go
@@ -151,6 +270,38 @@ func (c *Counter) Reset()
 ```
 
 Reset stops and resets the counter.
+
+<details><summary>Example</summary>
+<p>
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"atomicgo.dev/counter"
+)
+
+func main() {
+	c := counter.NewCounter().Start()
+	for i := 0; i < 10; i++ {
+		c.Increment()
+	}
+	c.Reset()
+
+	fmt.Println(c.Count())
+}
+```
+
+#### Output
+
+```
+0
+```
+
+</p>
+</details>
 
 ### func \(\*Counter\) [Start](<https://github.com/atomicgo/counter/blob/main/counter.go#L43>)
 
