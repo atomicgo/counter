@@ -115,8 +115,7 @@ func (c *Counter) CalculateAverageRate(interval time.Duration) float64
 
 CalculateAverageRate calculates the average rate of the counter. It returns the rate in \`count / interval\`.
 
-<details><summary>Example</summary>
-<p>
+
 
 
 
@@ -143,8 +142,7 @@ func main() {
 }
 ```
 
-</p>
-</details>
+
 
 <a name="Counter.CalculateMaximumRate"></a>
 ### func \(\*Counter\) [CalculateMaximumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L123>)
@@ -155,8 +153,7 @@ func (c *Counter) CalculateMaximumRate(interval time.Duration) float64
 
 CalculateMaximumRate calculates the maximum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
 
-<details><summary>Example</summary>
-<p>
+
 
 
 
@@ -183,8 +180,7 @@ func main() {
 }
 ```
 
-</p>
-</details>
+
 
 <a name="Counter.CalculateMinimumRate"></a>
 ### func \(\*Counter\) [CalculateMinimumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L150>)
@@ -195,8 +191,7 @@ func (c *Counter) CalculateMinimumRate(interval time.Duration) float64
 
 CalculateMinimumRate calculates the minimum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
 
-<details><summary>Example</summary>
-<p>
+
 
 
 
@@ -223,8 +218,7 @@ func main() {
 }
 ```
 
-</p>
-</details>
+
 
 <a name="Counter.Count"></a>
 ### func \(\*Counter\) [Count](<https://github.com/atomicgo/counter/blob/main/counter.go#L83>)
@@ -244,8 +238,7 @@ func (c *Counter) Increment()
 
 Increment increments the counter by 1.
 
-<details><summary>Example</summary>
-<p>
+
 
 
 
@@ -275,8 +268,7 @@ func main() {
 10
 ```
 
-</p>
-</details>
+
 
 <a name="Counter.Reset"></a>
 ### func \(\*Counter\) [Reset](<https://github.com/atomicgo/counter/blob/main/counter.go#L91>)
@@ -287,8 +279,7 @@ func (c *Counter) Reset()
 
 Reset stops and resets the counter.
 
-<details><summary>Example</summary>
-<p>
+
 
 
 
@@ -318,8 +309,7 @@ func main() {
 0
 ```
 
-</p>
-</details>
+
 
 <a name="Counter.Start"></a>
 ### func \(\*Counter\) [Start](<https://github.com/atomicgo/counter/blob/main/counter.go#L43>)
