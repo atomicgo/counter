@@ -12,6 +12,7 @@ func ExampleCounter_Increment() {
 	for i := 0; i < 10; i++ {
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.Count())
@@ -20,10 +21,12 @@ func ExampleCounter_Increment() {
 
 func ExampleCounter_CalculateAverageRate() {
 	c := counter.NewCounter().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateAverageRate(time.Second))
@@ -32,10 +35,12 @@ func ExampleCounter_CalculateAverageRate() {
 
 func ExampleCounter_CalculateMinimumRate() {
 	c := counter.NewCounter().WithAdvancedStats().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateMinimumRate(time.Second))
@@ -44,10 +49,12 @@ func ExampleCounter_CalculateMinimumRate() {
 
 func ExampleCounter_CalculateMaximumRate() {
 	c := counter.NewCounter().WithAdvancedStats().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateMaximumRate(time.Second))
@@ -59,6 +66,7 @@ func ExampleCounter_Reset() {
 	for i := 0; i < 10; i++ {
 		c.Increment()
 	}
+
 	c.Reset()
 
 	fmt.Println(c.Count())

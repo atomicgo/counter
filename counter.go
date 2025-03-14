@@ -59,6 +59,7 @@ func NewCounter() *Counter {
 func (c *Counter) WithAdvancedStats() *Counter {
 	cNew := NewCounter()
 	cNew.enableStats = true
+
 	return cNew
 }
 
@@ -76,6 +77,7 @@ func (c *Counter) Start() *Counter {
 
 	c.started = true
 	c.startedAt = time.Now()
+
 	if c.enableStats {
 		c.lastTrigger = c.startedAt
 	}

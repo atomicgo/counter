@@ -20,6 +20,7 @@ func TestCounter(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			c.Increment()
 		}
+
 		testza.AssertEqual(t, uint64(10), c.Count())
 	})
 
@@ -27,6 +28,7 @@ func TestCounter(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			c.Increment()
 		}
+
 		testza.AssertEqual(t, uint64(20), c.Count())
 	})
 
@@ -63,8 +65,10 @@ func TestAtomicOperations(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < numGoroutines; i++ {
 		wg.Add(1)
+
 		go func() {
 			defer wg.Done()
+
 			for j := 0; j < incrementsPerGoroutine; j++ {
 				c.Increment()
 			}
@@ -119,8 +123,10 @@ func TestReadWriteMutex(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < numReaders; i++ {
 		wg.Add(1)
+
 		go func() {
 			defer wg.Done()
+
 			for j := 0; j < readsPerGoroutine; j++ {
 				c.Count()
 				atomic.AddInt32(&readsDone, 1)

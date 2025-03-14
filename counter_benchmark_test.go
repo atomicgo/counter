@@ -15,18 +15,22 @@ type basicCounter struct {
 func (c *basicCounter) Increment() {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
+
 	c.count++
 }
 
 func (c *basicCounter) Count() uint64 {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
+
 	return c.count
 }
 
 func BenchmarkBasicCounterImplementation(b *testing.B) {
 	counter := basicCounter{}
+
 	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		counter.Increment()
 	}
@@ -34,7 +38,9 @@ func BenchmarkBasicCounterImplementation(b *testing.B) {
 
 func BenchmarkIncrement(b *testing.B) {
 	counter := NewCounter().Start()
+
 	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		counter.Increment()
 	}
@@ -42,7 +48,9 @@ func BenchmarkIncrement(b *testing.B) {
 
 func BenchmarkIncrementWithAdvancedStats(b *testing.B) {
 	counter := NewCounter().WithAdvancedStats().Start()
+
 	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		counter.Increment()
 	}
