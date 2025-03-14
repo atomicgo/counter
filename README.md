@@ -33,7 +33,7 @@
 </a>
 
 <a href="https://codecov.io/gh/atomicgo/counter">
-<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-10-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
+<!-- unittestcount:start --><img src="https://img.shields.io/badge/Unit_Tests-13-magenta?style=flat-square" alt="Unit test count"><!-- unittestcount:end -->
 </a>
 
 <a href="https://opensource.org/licenses/MIT" target="_blank">
@@ -86,7 +86,7 @@
 import "atomicgo.dev/counter"
 ```
 
-Package counter implements an advanced, fast and thread\-safe counter. It collects statstics, like current rate, min / max rate, etc.
+Package counter implements an advanced, fast and thread\-safe counter. It optionally collects statistics, like current rate, min / max rate, etc.
 
 ## Index
 
@@ -104,9 +104,19 @@ Package counter implements an advanced, fast and thread\-safe counter. It collec
 
 
 <a name="Counter"></a>
-## type [Counter](<https://github.com/atomicgo/counter/blob/main/counter.go#L15-L23>)
+## type [Counter](<https://github.com/atomicgo/counter/blob/main/counter.go#L24-L41>)
 
-Counter is a fast, thread\-safe counter. It collects statstics, like current rate, min / max rate, etc. The Counter can go up to \`18446744073709551615\` \(2^64 \- 1\), as it uses uint64 internally.
+Counter is a fast, thread\-safe counter. It collects statistics, like current rate, min / max rate, etc. The Counter can go up to \`18446744073709551615\` \(2^64 \- 1\), as it uses uint64 internally.
+
+Basic usage:
+
+```
+c := counter.NewCounter().Start()
+c.Increment()
+fmt.Println(c.Count()) // prints 1
+c.Stop()
+rate := c.CalculateAverageRate(time.Second) // events per second
+```
 
 ```go
 type Counter struct {
@@ -115,7 +125,7 @@ type Counter struct {
 ```
 
 <a name="NewCounter"></a>
-### func [NewCounter](<https://github.com/atomicgo/counter/blob/main/counter.go#L26>)
+### func [NewCounter](<https://github.com/atomicgo/counter/blob/main/counter.go#L46>)
 
 ```go
 func NewCounter() *Counter
@@ -123,14 +133,22 @@ func NewCounter() *Counter
 
 NewCounter returns a new Counter.
 
+The counter starts in a stopped state. Call Start\(\) to begin counting.
+
 <a name="Counter.CalculateAverageRate"></a>
-### func \(\*Counter\) [CalculateAverageRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L103>)
+### func \(\*Counter\) [CalculateAverageRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L172>)
 
 ```go
 func (c *Counter) CalculateAverageRate(interval time.Duration) float64
 ```
 
 CalculateAverageRate calculates the average rate of the counter. It returns the rate in \`count / interval\`.
+
+For example, to get events per second:
+
+```
+rate := counter.CalculateAverageRate(time.Second)
+```
 
 
 
@@ -148,10 +166,12 @@ import (
 
 func main() {
 	c := counter.NewCounter().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateAverageRate(time.Second))
@@ -162,13 +182,15 @@ func main() {
 
 
 <a name="Counter.CalculateMaximumRate"></a>
-### func \(\*Counter\) [CalculateMaximumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L123>)
+### func \(\*Counter\) [CalculateMaximumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L200>)
 
 ```go
 func (c *Counter) CalculateMaximumRate(interval time.Duration) float64
 ```
 
-CalculateMaximumRate calculates the maximum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
+CalculateMaximumRate calculates the maximum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet or has no increments. Needs to be enabled via WithAdvancedStats.
+
+The maximum rate represents the fastest pace at which events occurred.
 
 
 
@@ -186,10 +208,12 @@ import (
 
 func main() {
 	c := counter.NewCounter().WithAdvancedStats().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateMaximumRate(time.Second))
@@ -200,13 +224,15 @@ func main() {
 
 
 <a name="Counter.CalculateMinimumRate"></a>
-### func \(\*Counter\) [CalculateMinimumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L150>)
+### func \(\*Counter\) [CalculateMinimumRate](<https://github.com/atomicgo/counter/blob/main/counter.go#L221>)
 
 ```go
 func (c *Counter) CalculateMinimumRate(interval time.Duration) float64
 ```
 
-CalculateMinimumRate calculates the minimum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet. Needs to be enabled via WithAdvancedStats.
+CalculateMinimumRate calculates the minimum rate of the counter. It returns the rate in \`count / interval\`. It returns 0 if the counter has not been started yet or has no increments. Needs to be enabled via WithAdvancedStats.
+
+The minimum rate represents the slowest pace at which events occurred.
 
 
 
@@ -224,10 +250,12 @@ import (
 
 func main() {
 	c := counter.NewCounter().WithAdvancedStats().Start()
+
 	for i := 0; i < 10; i++ {
 		time.Sleep(100 * time.Millisecond)
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.CalculateMinimumRate(time.Second))
@@ -238,7 +266,7 @@ func main() {
 
 
 <a name="Counter.Count"></a>
-### func \(\*Counter\) [Count](<https://github.com/atomicgo/counter/blob/main/counter.go#L83>)
+### func \(\*Counter\) [Count](<https://github.com/atomicgo/counter/blob/main/counter.go#L145>)
 
 ```go
 func (c *Counter) Count() uint64
@@ -246,14 +274,18 @@ func (c *Counter) Count() uint64
 
 Count returns the current count.
 
+This method is thread\-safe and can be called concurrently from multiple goroutines.
+
 <a name="Counter.Increment"></a>
-### func \(\*Counter\) [Increment](<https://github.com/atomicgo/counter/blob/main/counter.go#L71>)
+### func \(\*Counter\) [Increment](<https://github.com/atomicgo/counter/blob/main/counter.go#L107>)
 
 ```go
 func (c *Counter) Increment()
 ```
 
 Increment increments the counter by 1.
+
+This method is thread\-safe and can be called concurrently from multiple goroutines.
 
 
 
@@ -273,6 +305,7 @@ func main() {
 	for i := 0; i < 10; i++ {
 		c.Increment()
 	}
+
 	c.Stop()
 
 	fmt.Println(c.Count())
@@ -288,13 +321,15 @@ func main() {
 
 
 <a name="Counter.Reset"></a>
-### func \(\*Counter\) [Reset](<https://github.com/atomicgo/counter/blob/main/counter.go#L91>)
+### func \(\*Counter\) [Reset](<https://github.com/atomicgo/counter/blob/main/counter.go#L152>)
 
 ```go
 func (c *Counter) Reset()
 ```
 
 Reset stops and resets the counter.
+
+This resets the count to 0 and clears all statistics.
 
 
 
@@ -314,6 +349,7 @@ func main() {
 	for i := 0; i < 10; i++ {
 		c.Increment()
 	}
+
 	c.Reset()
 
 	fmt.Println(c.Count())
@@ -329,7 +365,7 @@ func main() {
 
 
 <a name="Counter.Start"></a>
-### func \(\*Counter\) [Start](<https://github.com/atomicgo/counter/blob/main/counter.go#L43>)
+### func \(\*Counter\) [Start](<https://github.com/atomicgo/counter/blob/main/counter.go#L70>)
 
 ```go
 func (c *Counter) Start() *Counter
@@ -337,8 +373,10 @@ func (c *Counter) Start() *Counter
 
 Start starts the counter. It returns the counter itself, so you can chain it.
 
+If the counter is already started, this is a no\-op.
+
 <a name="Counter.Stop"></a>
-### func \(\*Counter\) [Stop](<https://github.com/atomicgo/counter/blob/main/counter.go#L58>)
+### func \(\*Counter\) [Stop](<https://github.com/atomicgo/counter/blob/main/counter.go#L92>)
 
 ```go
 func (c *Counter) Stop()
@@ -346,14 +384,18 @@ func (c *Counter) Stop()
 
 Stop stops the counter.
 
+This freezes the counter for rate calculations but does not reset the count. If the counter is already stopped, this is a no\-op.
+
 <a name="Counter.WithAdvancedStats"></a>
-### func \(\*Counter\) [WithAdvancedStats](<https://github.com/atomicgo/counter/blob/main/counter.go#L35>)
+### func \(\*Counter\) [WithAdvancedStats](<https://github.com/atomicgo/counter/blob/main/counter.go#L59>)
 
 ```go
 func (c *Counter) WithAdvancedStats() *Counter
 ```
 
 WithAdvancedStats enables the calculation of advanced statistics like CalculateMinimumRate and CalculateMaximumRate. CalculateAverageRate and CalculateCurrentRate are always enabled.
+
+Note: Enabling advanced stats will increase memory usage proportional to the number of increments.
 
 Generated by [gomarkdoc](<https://github.com/princjef/gomarkdoc>)
 
