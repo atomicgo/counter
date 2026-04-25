@@ -12,7 +12,7 @@ import (
 func TestCounter(t *testing.T) {
 	var c *Counter
 
-	t.Run("Start", func(t *testing.T) {
+	t.Run("Start", func(_ *testing.T) {
 		c = NewCounter().Start()
 	})
 
@@ -37,7 +37,7 @@ func TestCounter(t *testing.T) {
 		testza.AssertEqual(t, uint64(0), c.Count())
 	})
 
-	t.Run("Start timer again", func(t *testing.T) {
+	t.Run("Start timer again", func(_ *testing.T) {
 		c.Start()
 	})
 
@@ -49,7 +49,7 @@ func TestCounter(t *testing.T) {
 		testza.AssertEqual(t, uint64(1_000_000), c.Count())
 	})
 
-	t.Run("Stop", func(t *testing.T) {
+	t.Run("Stop", func(_ *testing.T) {
 		c.Stop()
 	})
 }
